@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
+#include "../core/Engine.h"
 
 class Window {
 private:
@@ -28,6 +29,8 @@ Window::Window(unsigned int sW, unsigned int sH, const char *sT) {
 
   // creating window
   window = glfwCreateWindow(screenWidth, screenHeight, title, NULL, NULL);
+  glfwSetCursorPosCallback(window, Engine::mouse_callback);
+
   if (window == NULL) {
     std::cout << "Failed to create GLFW window" << std::endl;
     glfwTerminate();

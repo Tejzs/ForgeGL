@@ -3,7 +3,6 @@
 #include "stb_image.h"
 #include <iostream>
 #include <vector>
-#include "../../src/engine/core/Engine.h"
 
 const unsigned int SCR_WIDTH = 1600;
 const unsigned int SCR_HEIGHT = 1000;
@@ -16,9 +15,11 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos);
 
 int main()
 {
-  Window *win = new Window(SCR_WIDTH, SCR_HEIGHT, "MyGame");
+  Window *win = new Window(SCR_WIDTH, SCR_HEIGHT, "ForgeGL");
 
   Engine e;
+  glfwSetWindowUserPointer(win->window, &e);
+
   e.run(win->window, win->screenWidth, win->screenHeight);
 
   win->terminateWindow();

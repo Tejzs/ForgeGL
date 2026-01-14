@@ -1,4 +1,3 @@
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "../../src/engine/core/World.h"
@@ -14,13 +13,13 @@
 
 using json = nlohmann::json;
 
-class Engine
-{
+class Engine {
 private:
     World world;
     RenderSystem renderSystem;
     PhysicsSystem physicssystem;
     EditorLayer editorLayer;
+    entt::entity camera_entity = getWorld().findGameObjectsWithName("Camera");
 
     static uint32_t objectCounter;
 
@@ -35,6 +34,11 @@ private:
     entt::entity selectedEntity = entt::null;
     bool isProjectLoaded = false;
 
+    float lastX = 400, lastY = 300;
+    float firstMouse = true;
+    float yaw = -90.0f;
+    float pitch = 0.0f;
+
 public:
     unsigned int lightVAO, lightVBO;
     float vertices[256] = {
@@ -48,7 +52,8 @@ public:
         1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f,
         1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f,
         1.0f, 1.0f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
+        1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 1.0f, -1.0f, 1.0f
+    };
     GLuint fbo = 0;
     GLuint fboTexture = 0;
     GLuint rboDepth = 0;
@@ -76,14 +81,23 @@ public:
     Shader &getLightShader() { return lightShader; };
 
     void EditorSetup(GLFWwindow *window);
+
     void UpdateEditor(int SCR_WIDTH, int SCR_HEIGHT);
 
     void setup_imgui(GLFWwindow *window);
+
     void processInput(GLFWwindow *window);
+    static void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+
     void loadSaved(const char *path);
+
     void saveProject(const char *path);
+
     void newProject(const char *path);
+
     void SetupFramebuffer(int width, int height);
-    void cloneR(entt::registry& src, entt::registry& dst);
+
+    void cloneR(entt::registry &src, entt::registry &dst);
+
     void run(GLFWwindow *window, int SCR_WIDTH, int SCR_HEIGHT);
 };

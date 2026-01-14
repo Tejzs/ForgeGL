@@ -12,23 +12,36 @@ enum EditorState {
     Project
 };
 
-class EditorLayer
-{
+class EditorLayer {
+public:
+
 private:
     EditorState state = EditorState::Menu;
-    Engine* m_Engine = nullptr;
+    Engine *m_Engine = nullptr;
     GLFWwindow *window = nullptr;
     char projectPath[256];
     entt::entity selectedEntity = entt::null;
-    int isRunning = 0; 
+    int isRunning = 0;
     bool takeBackUp = false;
     entt::registry temp;
+    glm::vec3 game_camera_pos;
+
 public:
-    void Init(GLFWwindow *window, Engine* engine);
+    int is_running() const;
+
+    void Init(GLFWwindow *window, Engine *engine);
+
     void Update(int SCR_WIDTH, int SCR_HEIGHT);
+
     void renderMenuBar();
+
     void renderMenu();
+
     void renderViewport(int SCR_WIDTH, int SCR_HEIGHT);
+
     void renderInspector();
+
     void renderHeiarchy();
+
+    void processRuntimeInput();
 };
